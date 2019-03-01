@@ -17,11 +17,11 @@ dag = DAG('upload_raw_to_s3',
           )
 
 s3_upload_confirm = BashOperator(task_id='s3_upload_confirm',
-                                 bash_command="echo 'New files uploaded to S3 raw buckets",
+                                 bash_command="echo 'New files uploaded to S3 raw buckets'",
                                  dag=dag)
 
 upload_raw_files = BashOperator(task_id='upload_raw_files',
-                                bash_command='python /root/airflow/extract/raw_file_collection.py',
+                                bash_command='python /root/airflow/dags/extract/raw_file_collection.py',
                                 dag=dag)
 
 upload_raw_files >> s3_upload_confirm

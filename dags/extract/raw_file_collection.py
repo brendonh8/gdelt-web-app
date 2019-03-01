@@ -3,7 +3,7 @@ Script requests the current gdelt data and uploads to s3
 '''
 
 # imports
-from urllib.request import urlopen, urlretrieve
+from urllib import urlopen, urlretrieve
 from zipfile import ZipFile
 import os
 import re
