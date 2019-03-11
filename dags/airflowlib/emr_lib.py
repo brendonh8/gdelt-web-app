@@ -30,7 +30,7 @@ def get_security_group_id(group_name, region_name):
     return response['SecurityGroups'][0]['GroupId']
 
 
-def create_cluster(region_name, cluster_name='Airflow-' + str(datetime.now()), release_label='emr-5.21.0', master_instance_type='m3.xlarge', num_core_nodes=2, core_node_instance_type='m3.2xlarge'):
+def create_cluster(region_name, cluster_name='Airflow-' + str(datetime.now()), release_label='emr-5.21.0', master_instance_type='m4.xlarge', num_core_nodes=2, core_node_instance_type='m4.xlarge'):
     '''
     creates a standard EMR cluster with the emr client object and default roles
     '''
@@ -108,9 +108,9 @@ def create_spark_session(master_dns, kind='spark'):
 def wait_for_idle_session(master_dns, response_headers):
     # waits for the session state to be idle or ready for submissions
     status = ''
-    host = 'https://' + master_dns + ':8998'
+    host = 'http://' + master_dns + ':8998'
     session_url = host + response_headers['location']
-    with status != 'idle':
+    while status != 'idle':
         time.sleep(3)
         status_response = requests.get(session_url, headers=response_headers)
         status = status_response.json()['state']
